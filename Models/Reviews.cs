@@ -19,11 +19,17 @@ namespace projectOne.Models
         private MySqlDataReader dbReader;
 
         // property variables
-        
+
+        private List<Review> _reviews;
+        // private Review _reviewDetails;
 
 
         public Reviews()
         {
+
+            // init
+            _reviews = new List<Review>();
+
             Env.Load();
             CONNECTION_STRING = Env.GetString("CONNECTION_STRING");
 
@@ -31,6 +37,54 @@ namespace projectOne.Models
             dbConnection = new MySqlConnection(CONNECTION_STRING);
             dbCommand = new MySqlCommand("", dbConnection);
         }
+
+        public List<Review> reviews {
+            get{
+                return _reviews;
+            }
+          
+        }
+
+        public void getReviewData()
+        {
+            try{
+                dbConnection.Open();
+                dbCommand.CommandText = "SELECT * FROM reviews ORDER BY id DESC";
+                dbReader = dbCommand.ExecuteReader();
+                while (dbReader.Read())
+                {
+
+                    // testing write lines
+                    Console.WriteLine("id: " + dbReader["id"].ToString());
+                    Console.WriteLine("firstname: " + dbReader["first_name"].ToString());
+                    Console.WriteLine("lastname: " + dbReader["last_name"].ToString());
+                    Console.WriteLine("date: " + dbReader["date"].ToString());
+                    Console.WriteLine("rating: " + dbReader["rating"].ToString());
+                    Console.WriteLine("comment: " + dbReader["comment"].ToString());
+
+                    Review review = new Review();
+                    review.reviewID = Convert.ToInt32(dbReader["id"]);
+                    review.firstName = dbReader["first_name"].ToString();
+                    review.lastName = dbReader["last_name"].ToString();
+                    review.reviewDate = Convert.ToDateTime(dbReader["date"]);
+                    review.rating = Convert.ToInt32(dbReader["rating"]);
+                    review.comment = dbReader["comment"].ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(">>> An error has occurred with getReviewData()");
+                Console.WriteLine(">>> " + e.Message);
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+        }
+
+
+
+
 
     }
 }
