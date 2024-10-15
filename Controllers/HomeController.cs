@@ -8,7 +8,7 @@ namespace projectOne.Controllers {
 
         public IActionResult Index() {
             Reviews reviews = new Reviews();
-            reviews.getReviewData();
+            reviews.setMeUp();
             return View();
         }
 

@@ -45,7 +45,10 @@ namespace projectOne.Models
           
         }
 
-        public void getReviewData()
+        public void setMeUp() {
+            getReviewData();
+        }
+        private void getReviewData()
         {
             try{
                 dbConnection.Open();
