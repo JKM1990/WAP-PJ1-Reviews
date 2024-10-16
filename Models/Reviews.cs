@@ -72,6 +72,8 @@ namespace projectOne.Models
                     review.reviewDate = Convert.ToDateTime(dbReader["date"]);
                     review.rating = Convert.ToInt32(dbReader["rating"]);
                     review.comment = dbReader["comment"].ToString();
+
+                    _reviews.Add(review);
                 }
             }
             catch (Exception e)
