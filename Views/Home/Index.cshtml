@@ -1,7 +1,25 @@
-﻿<div>
+﻿@model Reviews
+
+<div>
     <h1 class="text-success">projectOne testest</h1>
     <h5 class="text-success">INET2005 Web Appplication Programming I</h5>    
 </div>
+
 <div>
-    
+    @foreach (var review in Model.reviews) {
+        <div>Review ID: @review.reviewID</div>
+        <div>Review Date: @review.reviewDate</div>
+        <div>First Name: @review.firstName</div>
+        <div>Last Name: @review.lastName</div>
+        <select class="star-rating">
+            <option value="">Select a rating</option>
+            <option value="5">Excellent</option>
+            <option value="4">Very Good</option>
+            <option value="3">Average</option>
+            <option value="2">Poor</option>
+            <option value="1">Terrible</option>
+        </select>
+        <div>Rating: @review.rating</div>
+        <div>Comment: @review.comment</div>
+    }
 </div>

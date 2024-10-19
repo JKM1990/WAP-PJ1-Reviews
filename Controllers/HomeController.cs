@@ -9,7 +9,7 @@ namespace projectOne.Controllers {
         public IActionResult Index() {
             Reviews reviews = new Reviews();
             reviews.setMeUp();
-            return View();
+            return View(reviews);
         }
 
     }
