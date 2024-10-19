@@ -87,6 +87,27 @@ namespace projectOne.Models
             }
         }
 
+        public void AddReview(Review review)
+        {
+            try
+            {
+                dbConnection.Open();
+                dbCommand.CommandText = "INSERT INTO reviews (first_name, last_name, date, rating, comment) VALUES (@FirstName, @LastName, @Date, @Rating, @Comment)";
+                dbCommand.Parameters.AddWithValue("@FirstName", review.firstName);
+                dbCommand.Parameters.AddWithValue("@LastName", review.lastName);
+                dbCommand.Parameters.AddWithValue("@Date", review.reviewDate);
+                dbCommand.Parameters.AddWithValue("@Rating", review.rating);
+                dbCommand.Parameters.AddWithValue("@Comment", review.comment);
+                dbCommand.ExecuteNonQuery();
+            }
+            finally
+            {
+                dbConnection.Close();
+            }
+
+        }
+        
+
 
 
 
