@@ -21,7 +21,7 @@ namespace projectOne.Models
         // property variables
 
         private List<Review> _reviews;
-        // private Review _reviewDetails;
+        private Review _reviewDetails;
 
 
         public Reviews()
@@ -43,6 +43,14 @@ namespace projectOne.Models
                 return _reviews;
             }
           
+        }
+
+        public Review reviewDetails
+        {
+            get {
+                return _reviewDetails;
+            }
+            set{}
         }
 
         public void setMeUp() {
@@ -87,17 +95,17 @@ namespace projectOne.Models
             }
         }
 
-        public void AddReview(Review review)
+        public void AddReview()
         {
             try
             {
                 dbConnection.Open();
                 dbCommand.CommandText = "INSERT INTO reviews (first_name, last_name, date, rating, comment) VALUES (@FirstName, @LastName, @Date, @Rating, @Comment)";
-                dbCommand.Parameters.AddWithValue("@FirstName", review.firstName);
-                dbCommand.Parameters.AddWithValue("@LastName", review.lastName);
-                dbCommand.Parameters.AddWithValue("@Date", review.reviewDate);
-                dbCommand.Parameters.AddWithValue("@Rating", review.rating);
-                dbCommand.Parameters.AddWithValue("@Comment", review.comment);
+                dbCommand.Parameters.AddWithValue("@FirstName", _reviewDetails.firstName);
+                dbCommand.Parameters.AddWithValue("@LastName", _reviewDetails.lastName);
+                dbCommand.Parameters.AddWithValue("@Date", _reviewDetails.reviewDate);
+                dbCommand.Parameters.AddWithValue("@Rating", _reviewDetails.rating);
+                dbCommand.Parameters.AddWithValue("@Comment", _reviewDetails.comment);
                 dbCommand.ExecuteNonQuery();
             }
             finally
