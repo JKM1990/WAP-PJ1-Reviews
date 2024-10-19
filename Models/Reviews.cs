@@ -29,6 +29,7 @@ namespace projectOne.Models
 
             // init
             _reviews = new List<Review>();
+            _reviewDetails = new Review();
 
             Env.Load();
             CONNECTION_STRING = Env.GetString("CONNECTION_STRING");
@@ -50,7 +51,9 @@ namespace projectOne.Models
             get {
                 return _reviewDetails;
             }
-            set{}
+            set{
+                
+            }
         }
 
         public void setMeUp() {

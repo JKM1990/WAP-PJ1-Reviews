@@ -5,10 +5,12 @@
     <h5 class="text-success">INET2005 Web Appplication Programming I</h5>    
 </div>
 
+<input type="checkbox" id="toggleFormBox"/>
+<label for="toggleFormBox">Add New Review</label>
 
-<div>
+<div id="reviewForm" style="display: none;">
     <form method="post">
-        <h3>Add New Review:</h3>
+        <h3>Enter details:</h3>
         <div class="mb-3">
             <label for="txtRating">Rating:</label>
             <input id="txtRating" asp-for="@Model.reviewDetails.rating" type="text" class="form-control" maxlength="1" />
@@ -44,3 +46,15 @@
         <div>Comment: @review.comment</div>
     }
 </div>
+@section Scripts {
+    <script>
+        document.getElementById('toggleFormBox').addEventListener('change', function () {
+            var reviewForm = document.getElementById('reviewForm');
+            if (this.checked) {
+                reviewForm.style.display = 'block';
+            } else {
+                reviewForm.style.display = 'none';
+            }
+        });
+    </script>
+}
