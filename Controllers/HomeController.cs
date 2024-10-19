@@ -12,5 +12,12 @@ namespace projectOne.Controllers {
             return View(reviews);
         }
 
+        [HttpPost]
+        public IActionResult ReviewSubmit(Reviews review)
+        {
+            review.AddReview();
+            return RedirectToAction("Index");
+        }
+
     }
 }
