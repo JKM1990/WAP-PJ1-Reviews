@@ -9,7 +9,14 @@ namespace projectOne.Controllers {
         public IActionResult Index() {
             Reviews reviews = new Reviews();
             reviews.setMeUp();
-            return View();
+            return View(reviews);
+        }
+
+        [HttpPost]
+        public IActionResult ReviewSubmit(Reviews review)
+        {
+            review.AddReview();
+            return RedirectToAction("Index");
         }
 
     }
