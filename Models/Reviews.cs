@@ -102,6 +102,23 @@ namespace projectOne.Models
         {
             try
             {
+                if (string.IsNullOrEmpty(_reviewDetails.comment))
+                {
+                    // If the comment is empty, do not save the review
+                    return;
+                }
+
+                // If first name or last name is empty, set them to "Anonymous"
+                if (string.IsNullOrEmpty(_reviewDetails.firstName))
+                {
+                    _reviewDetails.firstName = "Anonymous";
+                }
+                
+                if (string.IsNullOrEmpty(_reviewDetails.lastName))
+                {
+                    _reviewDetails.lastName = "Anonymous";
+                }
+
                 dbConnection.Open();
                 dbCommand.CommandText = "INSERT INTO reviews (first_name, last_name, date, rating, comment) VALUES (@FirstName, @LastName, @Date, @Rating, @Comment)";
                 dbCommand.Parameters.AddWithValue("@FirstName", _reviewDetails.firstName);
@@ -115,8 +132,8 @@ namespace projectOne.Models
             {
                 dbConnection.Close();
             }
-
         }
+
         
 
 
