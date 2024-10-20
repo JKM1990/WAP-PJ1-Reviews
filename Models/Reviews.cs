@@ -112,11 +112,13 @@ namespace projectOne.Models
                 if (string.IsNullOrEmpty(_reviewDetails.firstName))
                 {
                     _reviewDetails.firstName = "Anonymous";
+                    _reviewDetails.lastName = "Anonymous";
                 }
                 
                 if (string.IsNullOrEmpty(_reviewDetails.lastName))
                 {
                     _reviewDetails.lastName = "Anonymous";
+                    _reviewDetails.firstName = "Anonymous";
                 }
 
                 dbConnection.Open();
