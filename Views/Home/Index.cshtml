@@ -41,16 +41,19 @@
 
 </div>
 
-<div>
-    @foreach (var review in Model.reviews) {
+
+@foreach (var review in Model.reviews) {
+    <div class="m-3">
         <div>Review ID: @review.reviewID</div>
         <div>Review Date: @review.reviewDate</div>
         <div>First Name: @review.firstName</div>
         <div>Last Name: @review.lastName</div>
         <div>Rating: @review.rating</div>
         <div>Comment: @review.comment</div>
-    }
-</div>
+        <a href="#">Back to Top</a>
+    </div>
+}
+
 @section Scripts {
     <script>
         document.getElementById('toggleFormBox').addEventListener('change', function () {

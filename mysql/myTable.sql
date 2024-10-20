@@ -21,4 +21,4 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 INSERT INTO `reviews` (`id`, `first_name`, `last_name`, `date`, `rating`, `comment`) VALUES
 (1, 'John', 'Doe', '1999-01-01', 5, 'Great product!'),
 (2, 'Jane', 'Smith', '2005-02-15', 4, 'Very useful.'),
-(3, 'Emily', 'Jones', '2023-03-22', 3, 'It’s okay.');
+(3, 'Emily', 'Jones', '2023-03-22', 3, 'Its okay.');
