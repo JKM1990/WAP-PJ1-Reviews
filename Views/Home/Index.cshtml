@@ -7,7 +7,6 @@
 
 <div>
     <img src="~/images/snes.png" alt="SNES Image" />
-
 </div>
 
 <input type="checkbox" id="toggleFormBox"/>
@@ -17,13 +16,12 @@
     <form method="post">
         <h3>Enter details:</h3>
 
-        <div class="rating" aria-label="Rating">
+        <div class="form-rating" aria-label="Rating">
             <span class="star" data-value="1" title="1 star">&#9733;</span>
             <span class="star" data-value="2" title="2 stars">&#9733;</span>
             <span class="star" data-value="3" title="3 stars">&#9733;</span>
             <span class="star" data-value="4" title="4 stars">&#9733;</span>
             <span class="star" data-value="5" title="5 stars">&#9733;</span>
-
         </div>
         <input type="hidden" id="ratingValue" name="ratingValue" />
 
@@ -44,23 +42,28 @@
             <input id="txtComment" asp-for="@Model.reviewDetails.comment" type="text" class="form-control" maxlength="300" />
         </div>
         <div class="mb-3">
-                <button type="submit" class="btn btn-success" asp-controller="Home" asp-action="ReviewSubmit">Submit Review</button>
-                <button type="submit" class="btn btn-success" asp-controller="Home" asp-action="Index">Cancel</button>
-            </div>
-
+            <button type="submit" class="btn btn-success" asp-controller="Home" asp-action="ReviewSubmit">Submit Review</button>
+            <button type="submit" class="btn btn-success" asp-controller="Home" asp-action="Index">Cancel</button>
+        </div>
     </form>
-
 </div>
 
-
 @foreach (var review in Model.reviews) {
-
     <div class="m-3">
         <div>Review ID: @review.reviewID</div>
         <div>Review Date: @review.reviewDate</div>
         <div>First Name: @review.firstName</div>
         <div>Last Name: @review.lastName</div>
-        <div>Rating: @review.rating</div>
+        <div>
+            Rating: 
+            <div class="rating" aria-label="Rating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    var starClass = i <= review.rating ? "star selected" : "star";
+                    <span class="@starClass" data-value="@i" title="@i star">&#9733;</span>
+                }
+            </div>
+        </div>
         <div>Comment: @review.comment</div>
         <a href="#">Back to Top</a>
     </div>
@@ -74,10 +77,10 @@
                 reviewForm.style.display = this.checked ? 'block' : 'none';
             });
 
-            const stars = document.querySelectorAll('.star');
+            const formStars = document.querySelectorAll('.form-rating .star');
             const ratingValueInput = document.getElementById('ratingValue');
 
-            stars.forEach(star => {
+            formStars.forEach(star => {
                 star.addEventListener('mouseover', () => {
                     const currentRating = star.getAttribute('data-value');
                     highlightStars(currentRating);
@@ -96,7 +99,7 @@
             });
 
             function highlightStars(rating) {
-                stars.forEach(star => {
+                formStars.forEach(star => {
                     // Highlight stars only up to the current rating
                     if (parseInt(star.getAttribute('data-value')) <= parseInt(rating)) {
                         star.classList.add('selected');
