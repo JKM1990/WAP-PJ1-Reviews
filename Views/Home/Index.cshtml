@@ -16,6 +16,17 @@
 <div id="reviewForm" style="display: none;">
     <form method="post">
         <h3>Enter details:</h3>
+
+        <div class="rating" aria-label="Rating">
+            <span class="star" data-value="1" title="1 star">&#9733;</span>
+            <span class="star" data-value="2" title="2 stars">&#9733;</span>
+            <span class="star" data-value="3" title="3 stars">&#9733;</span>
+            <span class="star" data-value="4" title="4 stars">&#9733;</span>
+            <span class="star" data-value="5" title="5 stars">&#9733;</span>
+
+        </div>
+        <input type="hidden" id="ratingValue" name="ratingValue" />
+
         <div class="mb-3">
             <label for="txtRating">Rating:</label>
             <input id="txtRating" asp-for="@Model.reviewDetails.rating" type="text" class="form-control" maxlength="1" />
@@ -43,6 +54,7 @@
 
 
 @foreach (var review in Model.reviews) {
+
     <div class="m-3">
         <div>Review ID: @review.reviewID</div>
         <div>Review Date: @review.reviewDate</div>
@@ -56,12 +68,42 @@
 
 @section Scripts {
     <script>
-        document.getElementById('toggleFormBox').addEventListener('change', function () {
-            var reviewForm = document.getElementById('reviewForm');
-            if (this.checked) {
-                reviewForm.style.display = 'block';
-            } else {
-                reviewForm.style.display = 'none';
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('toggleFormBox').addEventListener('change', function () {
+                var reviewForm = document.getElementById('reviewForm');
+                reviewForm.style.display = this.checked ? 'block' : 'none';
+            });
+
+            const stars = document.querySelectorAll('.star');
+            const ratingValueInput = document.getElementById('ratingValue');
+
+            stars.forEach(star => {
+                star.addEventListener('mouseover', () => {
+                    const currentRating = star.getAttribute('data-value');
+                    highlightStars(currentRating);
+                });
+
+                star.addEventListener('mouseout', () => {
+                    const selectedRating = ratingValueInput.value || 0;
+                    highlightStars(selectedRating);
+                });
+
+                star.addEventListener('click', () => {
+                    const selectedRating = star.getAttribute('data-value');
+                    ratingValueInput.value = selectedRating; // Store the rating value
+                    highlightStars(selectedRating);
+                });
+            });
+
+            function highlightStars(rating) {
+                stars.forEach(star => {
+                    // Highlight stars only up to the current rating
+                    if (parseInt(star.getAttribute('data-value')) <= parseInt(rating)) {
+                        star.classList.add('selected');
+                    } else {
+                        star.classList.remove('selected');
+                    }
+                });
             }
         });
     </script>
