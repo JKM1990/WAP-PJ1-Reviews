@@ -1,13 +1,12 @@
 ﻿@model Reviews
 
 <div>
-    <h1 class="text-success">projectOne testest</h1>
+    <h1 class="text-success">Super Nintendo Entertainment System</h1>
     <h5 class="text-success">INET2005 Web Appplication Programming I</h5>    
 </div>
 
 <div>
     <img src="~/images/snes.png" alt="SNES Image" />
-
 </div>
 
 <input type="checkbox" id="toggleFormBox"/>
@@ -16,10 +15,16 @@
 <div id="reviewForm" style="display: none;">
     <form method="post">
         <h3>Enter details:</h3>
-        <div class="mb-3">
-            <label for="txtRating">Rating:</label>
-            <input id="txtRating" asp-for="@Model.reviewDetails.rating" type="text" class="form-control" maxlength="1" />
+
+        <div class="form-rating" aria-label="Rating">
+            <span class="star" data-value="1" title="1 star">&#9733;</span>
+            <span class="star" data-value="2" title="2 stars">&#9733;</span>
+            <span class="star" data-value="3" title="3 stars">&#9733;</span>
+            <span class="star" data-value="4" title="4 stars">&#9733;</span>
+            <span class="star" data-value="5" title="5 stars">&#9733;</span>
         </div>
+        <input type="hidden" id="ratingValue" asp-for="@Model.reviewDetails.rating" />
+
         <div class="mb-3">
             <label for="txtFirstName">First Name:</label>
             <input id="txtFirstName" asp-for="@Model.reviewDetails.firstName" type="text" class="form-control" maxlength="75" />
@@ -33,22 +38,27 @@
             <input id="txtComment" asp-for="@Model.reviewDetails.comment" type="text" class="form-control" maxlength="300" />
         </div>
         <div class="mb-3">
-                <button type="submit" class="btn btn-success" asp-controller="Home" asp-action="ReviewSubmit">Submit Review</button>
-                <button type="submit" class="btn btn-success" asp-controller="Home" asp-action="Index">Cancel</button>
-            </div>
-
+            <button type="submit" class="btn btn-success" asp-controller="Home" asp-action="ReviewSubmit">Submit Review</button>
+            <button type="button" class="btn btn-success" asp-controller="Home" asp-action="Index" onclick="toggleReviewForm()">Cancel</button>
+        </div>
     </form>
-
 </div>
 
 
 @foreach (var review in Model.reviews) {
     <div class="m-3">
-        <div>Review ID: @review.reviewID</div>
-        <div>Review Date: @review.reviewDate</div>
-        <div>First Name: @review.firstName</div>
-        <div>Last Name: @review.lastName</div>
-        <div>Rating: @review.rating</div>
+        
+        <div>@review.firstName @review.lastName</div>
+        <div>
+            Rating: 
+            <div class="rating" aria-label="Rating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    var starClass = i <= review.rating ? "star selected" : "star";
+                    <span class="@starClass" data-value="@i" title="@i star">&#9733;</span>
+                }
+            </div>
+        </div>
         <div>Comment: @review.comment</div>
         <a href="#">Back to Top</a>
     </div>
@@ -56,13 +66,44 @@
 
 @section Scripts {
     <script>
+    document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('toggleFormBox').addEventListener('change', function () {
             var reviewForm = document.getElementById('reviewForm');
-            if (this.checked) {
-                reviewForm.style.display = 'block';
-            } else {
-                reviewForm.style.display = 'none';
-            }
+            reviewForm.style.display = this.checked ? 'block' : 'none';
         });
-    </script>
+
+        const formStars = document.querySelectorAll('.form-rating .star');
+        const ratingValueInput = document.getElementById('ratingValue');
+
+        formStars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const currentRating = star.getAttribute('data-value');
+                highlightStars(currentRating);
+            });
+
+            star.addEventListener('mouseout', () => {
+                const selectedRating = ratingValueInput.value || 0;
+                highlightStars(selectedRating);
+            });
+
+            star.addEventListener('click', () => {
+                const selectedRating = star.getAttribute('data-value');
+                ratingValueInput.value = selectedRating; // Store the rating value
+                highlightStars(selectedRating);
+            });
+        });
+
+        function highlightStars(rating) {
+            formStars.forEach(star => {
+                if (parseInt(star.getAttribute('data-value')) <= parseInt(rating)) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        }
+    });
+
+</script>
+
 }

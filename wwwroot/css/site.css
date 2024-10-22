@@ -1,3 +1,17 @@
-﻿body {
-  margin-top: 30px;
+.star {
+    font-size: 2rem; /* Adjust the size as needed */
+    color: #ccc; /* Default star color */
+}
+
+.rating .star.selected {
+    color: #f39c12; /* Selected color */
+}
+
+/* Hover effect only applies to stars in the review form */
+.form-rating .star:hover {
+    color: #f39c12; /* Highlight color on hover */
+}
+
+.form-rating .star.selected {
+    color: #f39c12; /* Selected color */
 }

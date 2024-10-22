@@ -24,12 +24,15 @@ namespace projectOne.Models
         private Review _reviewDetails;
 
 
+
+
         public Reviews()
         {
 
             // init
             _reviews = new List<Review>();
             _reviewDetails = new Review();
+
 
             Env.Load();
             CONNECTION_STRING = Env.GetString("CONNECTION_STRING");
